@@ -1,2 +1,8 @@
 # genericdp
-A library for dynamic programs
+TODO:
+  * Port all genericdp classes
+  * Add any missing tests
+  * Refactor DPStages
+  * Improve output capabilities
+	* Write a representative path generators.
+  
