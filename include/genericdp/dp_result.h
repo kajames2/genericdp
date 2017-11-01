@@ -6,6 +6,7 @@
 #include "exogenous_state.h"
 
 #include <memory>
+#include <iostream>
 
 namespace genericdp {
 template <class T> class DPResult : public DPResultInterface {
@@ -26,6 +27,12 @@ public:
   T GetState() const;
   double GetImmediateValue() const;
 
+  friend void swap(DPResult &first, DPResult &second) {
+    std::swap(first.exogenous_state_, second.exogenous_state_);
+    std::swap(first.endogenous_state_, second.endogenous_state_);
+    std::swap(first.value_, second.value_);
+  }
+  
 private:
   std::unique_ptr<const ExogenousState<T>> exogenous_state_;
   std::unique_ptr<const EndogenousState<T>> endogenous_state_;
@@ -44,8 +51,8 @@ DPResult<T>::DPResult()
 
 template <class T>
 DPResult<T>::DPResult(const DPResult &other)
-    : exogenous_state_(other.exogenous_state_->Clone()),
-      endogenous_state_(other.endogenous_state_->Clone()),
+    : exogenous_state_(other.exogenous_state_ ? other.exogenous_state_->Clone() : nullptr),
+      endogenous_state_(other.endogenous_state_ ? other.endogenous_state_->Clone() : nullptr),
       value_(other.value_) {}
 
 template <class T> DPResult<T> &DPResult<T>::operator=(const DPResult &other) {

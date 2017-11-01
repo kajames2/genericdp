@@ -15,22 +15,17 @@ template <class T> class StochasticDPResultSet {
 public:
   StochasticDPResultSet();
   StochasticDPResultSet(std::vector<StochasticDPResult<T>> result_vec);
+  StochasticDPResultSet(const StochasticDPResultSet &other)
+      : result_vec_(other.result_vec_), value_(other.value_) {}
+  StochasticDPResultSet &operator=(const StochasticDPResultSet &other);
+  StochasticDPResultSet(StochasticDPResultSet &&) = default;
+  StochasticDPResultSet &operator=(StochasticDPResultSet &&) = default;
+
   void AddResult(StochasticDPResult<T> result);
   double GetValue() const;
 
-  StochasticDPResultSet(const StochasticDPResultSet &other)
-      : result_vec_(other.result_vec_), value_(other.value_) {}
-  StochasticDPResultSet &operator=(const StochasticDPResultSet &other) {
-    using std::swap;
-    StochasticDPResultSet copy(other);
-    swap(*this, copy);
-    return *this;
-  }
+  std::string GetHeader() const { return result_vec_.at(0).GetHeader(); }
 
-  std::string GetHeader() const {
-    return result_vec_.at(0).GetHeader();
-  }
-  
   friend std::ostream &operator<<(std::ostream &out,
                                   const StochasticDPResultSet<T> &b) {
     for (const auto &result : b.result_vec_) {
@@ -39,9 +34,6 @@ public:
     out << "Expected Value: " << b.value_;
     return out;
   }
-
-  StochasticDPResultSet(StochasticDPResultSet &&) = default;
-  StochasticDPResultSet &operator=(StochasticDPResultSet &&) = default;
 
   StochasticDPResult<T> &operator[](int i) { return result_vec_[i]; }
 
@@ -57,6 +49,15 @@ StochasticDPResultSet<T>::StochasticDPResultSet(
     std::vector<StochasticDPResult<T>> result_vec)
     : result_vec_(std::move(result_vec)) {
   value_ = CalculateValue();
+}
+
+template <class T>
+StochasticDPResultSet<T> &StochasticDPResultSet<T>::
+operator=(const StochasticDPResultSet &other) {
+  using std::swap;
+  StochasticDPResultSet copy(other);
+  swap(*this, copy);
+  return *this;
 }
 
 template <class T>

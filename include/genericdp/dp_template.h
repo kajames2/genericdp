@@ -1,8 +1,6 @@
 #ifndef _DP_TEMPLATE_H_
 #define _DP_TEMPLATE_H_
 
-#include "dp_result.h"
-#include "dp_result_interface.h"
 #include "dp_storage.h"
 #include "endogenous_iterator_factory.h"
 #include "endogenous_state.h"
@@ -11,7 +9,6 @@
 #include "value_strategy.h"
 
 #include <exception>
-#include <iostream>
 #include <memory>
 #include <vector>
 

@@ -1,8 +1,6 @@
 #ifndef _DP_STORAGE_H_
 #define _DP_STORAGE_H_
 
-#include "dp_result.h"
-
 #include <memory>
 
 namespace genericdp {
