@@ -31,11 +31,11 @@ private:
 };
 
 template <class T>
-DP<T>::DP(std::unique_ptr<DPStorage<T, DPResult<T>>> storage,
+DP<T>::DP(std::unique_ptr<DPStorage<T>> storage,
           std::unique_ptr<const EndogenousIteratorFactory<T>> fact,
           std::unique_ptr<const ValueStrategy<T>> calculator,
           std::unique_ptr<const ExogenousFactory<T>> ex_fact)
-    : DPTemplate<T, DPResult<T>>(std::move(storage), std::move(fact), std::move(calculator))
+    : DPTemplate<T>(std::move(storage), std::move(fact), std::move(calculator))
     , ex_fact_(std::move(ex_fact)) {}
 
 template <class T>

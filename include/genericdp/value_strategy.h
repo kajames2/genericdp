@@ -1,8 +1,6 @@
 #ifndef _VALUE_STRATEGY_H_
 #define _VALUE_STRATEGY_H_
 
-#include "endogenous_state.h"
-
 namespace genericdp {
 template <class T> class ValueStrategy {
 public:

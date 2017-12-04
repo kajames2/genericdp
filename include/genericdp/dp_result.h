@@ -1,84 +1,56 @@
 #ifndef _DP_RESULT_H_
 #define _DP_RESULT_H_
 
-#include "dp_result_interface.h"
-#include "endogenous_state.h"
-#include "exogenous_state.h"
+#include "dp_state.h"
 
 #include <memory>
-#include <iostream>
+#include <vector>
 
 namespace genericdp {
-template <class T> class DPResult : public DPResultInterface {
+template <typename T> class DPResult {
 public:
-  DPResult(std::unique_ptr<const ExogenousState<T>> ex,
-           std::unique_ptr<const EndogenousState<T>> end, double val);
-
   DPResult();
-  DPResult(const DPResult &other);
-  DPResult &operator=(const DPResult &other);
-  DPResult(DPResult &&) = default;
-  DPResult &operator=(DPResult &&) = default;
+  DPResult(const T &state);
 
-  virtual std::string GetString() const override;
-  virtual std::string GetHeader() const override;
-  double GetValue() const;
-
-  T GetState() const;
-  double GetImmediateValue() const;
-
-  friend void swap(DPResult &first, DPResult &second) {
-    std::swap(first.exogenous_state_, second.exogenous_state_);
-    std::swap(first.endogenous_state_, second.endogenous_state_);
-    std::swap(first.value_, second.value_);
+  void AddState(const T &state) {
+    probability_ += state.probability;
+    immediate_value_ += state.immediate_value * state.probability;
+    future_value_ += state.future_value * state.probability;
+    value_ += state.value * state.probability;
+    states_.push_back(state);
   }
-  
+
+  void AddResult(DPResult<T>* other) {
+    for (auto state : other->states_) {
+      AddState(state);
+    }
+  }
+  T operator[](int i) { return states_[i]; }
+
+  std::vector<T> GetStates() { return states_; }
+  double GetProbability() { return probability_; }
+  double GetImmediateValue() { return immediate_value_; }
+  double GetFutureValue() { return future_value_; }
+  double GetValue() { return value_; }
+
 private:
-  std::unique_ptr<const ExogenousState<T>> exogenous_state_;
-  std::unique_ptr<const EndogenousState<T>> endogenous_state_;
+  std::vector<T> states_;
+  double probability_;
+  double immediate_value_;
+  double future_value_;
   double value_;
 };
 
-template <class T>
-DPResult<T>::DPResult(std::unique_ptr<const ExogenousState<T>> ex,
-                      std::unique_ptr<const EndogenousState<T>> end, double val)
-    : exogenous_state_(std::move(ex)), endogenous_state_(std::move(end)),
-      value_(val) {}
-
-template <class T>
+template <typename T>
 DPResult<T>::DPResult()
-    : exogenous_state_(nullptr), endogenous_state_(nullptr), value_(-1) {}
+    : states_(), probability_(0), immediate_value_(0), future_value_(0),
+      value_(0) {}
 
-template <class T>
-DPResult<T>::DPResult(const DPResult &other)
-    : exogenous_state_(other.exogenous_state_ ? other.exogenous_state_->Clone() : nullptr),
-      endogenous_state_(other.endogenous_state_ ? other.endogenous_state_->Clone() : nullptr),
-      value_(other.value_) {}
-
-template <class T> DPResult<T> &DPResult<T>::operator=(const DPResult &other) {
-  using std::swap;
-  DPResult copy(other);
-  swap(*this, copy);
-  return *this;
+template <typename T>
+DPResult<T>::DPResult(const T &state)
+    : states_(), probability_(0), immediate_value_(0), future_value_(0),
+      value_(0) {
+  AddState(state);
 }
-
-template <class T> std::string DPResult<T>::GetString() const {
-  return exogenous_state_->GetString() + ", " + endogenous_state_->GetString() +
-         ", " + std::to_string(GetValue());
-}
-
-template <class T> std::string DPResult<T>::GetHeader() const {
-  return exogenous_state_->GetHeader() + ", " + endogenous_state_->GetHeader() +
-         ", " + "Value";
-}
-
-template <class T> T DPResult<T>::GetState() const {
-  return endogenous_state_->GetState();
-}
-
-template <class T> double DPResult<T>::GetValue() const { return value_; }
-template <class T> double DPResult<T>::GetImmediateValue() const {
-  return endogenous_state_->GetValue();
-}
-}
+} // namespace genericdp
 #endif // _DP_RESULT_H_
