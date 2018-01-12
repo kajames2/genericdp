@@ -3,7 +3,7 @@
 
 #include "dp_state_iterator_factory.h"
 #include "modify_vector_iterator.h"
-#include "modify_strategy.h"
+#include "modify_strategy_set.h"
 
 #include <memory>
 #include <vector>
@@ -11,13 +11,13 @@
 namespace genericdp {
 template <class T> class ModifyVectorIteratorFactory : public DPStateIteratorFactory<T> {
 public:
+  ModifyVectorIteratorFactory(ModifyStrategySet<T> mod_set) : mod_set_(mod_set) {}
   virtual std::unique_ptr<DPStateIterator<T>> GetIterator(const T& input) const {
-    return std::make_unique<ModifyVectorIterator<T>>(input, mods_);
+    return std::make_unique<ModifyVectorIterator<T>>(input, mod_set_);
   };
-  ModifyVectorIteratorFactory(std::vector<std::shared_ptr<ModifyStrategy<T>>> mods) : mods_(mods) {}
   
  private:
-  std::vector<std::shared_ptr<ModifyStrategy<T>>> mods_;
+  ModifyStrategySet<T> mod_set_;
 };
 } // namespace genericdp
 #endif // _MODIFY_VECTOR_ITERATOR_FACTORY_H_

@@ -1,3 +1,4 @@
+#include "modify_strategy_set.h"
 #include "modify_vector_iterator.h"
 #include "simple_shock_modify_strategy.h"
 #include "simple_dp_state.h"
@@ -14,9 +15,9 @@ class ModifyVectorIteratorTest : public ::testing::Test {
   virtual void SetUp() {
     auto mod_strat_1_ = std::make_shared<genericdptest::SimpleShockModifyStrategy>(0, 0.6);
     auto mod_strat_2_ = std::make_shared<genericdptest::SimpleShockModifyStrategy>(-3, 0.4);
-    shocks_ = std::vector<std::shared_ptr<genericdp::ModifyStrategy<genericdptest::SimpleDPState>>>();
-    shocks_.push_back(mod_strat_1_);
-    shocks_.push_back(mod_strat_2_);
+    shocks_ = genericdp::ModifyStrategySet<genericdptest::SimpleDPState>();
+    shocks_.AddStrategy(mod_strat_1_);
+    shocks_.AddStrategy(mod_strat_2_);
 
     state_ = std::make_unique<genericdptest::SimpleDPState>();
     state_->cash = 10;
@@ -26,7 +27,7 @@ class ModifyVectorIteratorTest : public ::testing::Test {
   }
   
   std::unique_ptr<genericdp::ModifyVectorIterator<genericdptest::SimpleDPState>> it_;
-  std::vector<std::shared_ptr<genericdp::ModifyStrategy<genericdptest::SimpleDPState>>> shocks_;
+  genericdp::ModifyStrategySet<genericdptest::SimpleDPState> shocks_;
   std::unique_ptr<genericdptest::SimpleDPState> state_;
 };
 

@@ -1,4 +1,5 @@
 #include "stochastic_dp_stage.h"
+#include "modify_strategy_set.h"
 #include "modify_vector_iterator_factory.h"
 #include "simple_dp_state.h"
 #include "simple_shock_modify_strategy.h"
@@ -13,11 +14,11 @@ class StochasticDPStageTest : public ::testing::Test {
 
  protected:
   virtual void SetUp() {
-    auto mod_strat_1 = std::make_shared<genericdptest::SimpleShockModifyStrategy>(0, 0.6);
-    auto mod_strat_2 = std::make_shared<genericdptest::SimpleShockModifyStrategy>(-3, 0.4);
-    std::vector<std::shared_ptr<genericdp::ModifyStrategy<genericdptest::SimpleDPState>>> shocks;
-    shocks.push_back(mod_strat_1);
-    shocks.push_back(mod_strat_2);
+    auto mod_strat_1 = std::make_shared<const genericdptest::SimpleShockModifyStrategy>(0, 0.6);
+    auto mod_strat_2 = std::make_shared<const genericdptest::SimpleShockModifyStrategy>(-3, 0.4);
+    genericdp::ModifyStrategySet<genericdptest::SimpleDPState> shocks;
+    shocks.AddStrategy(mod_strat_1);
+    shocks.AddStrategy(mod_strat_2);
 
     auto fact_ = std::make_unique<genericdp::ModifyVectorIteratorFactory<genericdptest::SimpleDPState>>(shocks);
 
