@@ -8,15 +8,16 @@
 namespace genericdp {
 
 template <typename T> class ModifyStrategyComposite : public ModifyStrategy<T> {
+ public:
   ModifyStrategyComposite() : strats_() {}
 
-  void AddStrategy(std::shared_ptr<ModifyStrategy<T>> strat) {
+  void AddStrategy(std::shared_ptr<const ModifyStrategy<T>> strat) {
     strats_.push_back(strat);
   }
 
-  virtual void Modify(T *state) override {
-    for (auto strat : strats_) {
-      strat->ModifyStrategy(state);
+  virtual void Modify(T *state) const override {
+    for (std::shared_ptr<const ModifyStrategy<T>> strat : strats_) {
+      strat->Modify(state);
     }
   }
 

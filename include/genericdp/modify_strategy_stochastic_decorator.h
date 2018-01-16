@@ -9,16 +9,19 @@ namespace genericdp {
 
 template <typename T>
 class ModifyStrategyStochasticDecorator : public ModifyStrategy<T> {
+public:
   ModifyStrategyStochasticDecorator(
-      std::shared_ptr<ModifyStrategy<T>> strat,
-      std::shared_ptr<ProbabilityStrategy<T>> prob)
+      std::shared_ptr<const ModifyStrategy<T>> strat,
+      std::shared_ptr<const ProbabilityStrategy<T>> prob)
       : strat_(strat), prob_(prob) {}
   virtual void Modify(T *state) const {
     strat_->Modify(state);
-    state->probability *= prob_->GetProbablity(state);
+    state->probability *= prob_->GetProbability(*state);
   }
-  std::shared_ptr<ModifyStrategy<T>> strat_;
-  std::shared_ptr<ProbabilityStrategy<T>> prob_;
+
+private:
+  std::shared_ptr<const ModifyStrategy<T>> strat_;
+  std::shared_ptr<const ProbabilityStrategy<T>> prob_;
 };
 
 } // namespace genericdp
