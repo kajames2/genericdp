@@ -2,65 +2,78 @@
 #define _DP_H_
 
 #include "dp_result.h"
+#include "dp_state.h"
 #include "dp_storage.h"
-#include "dp_template.h"
-#include "endogenous_iterator_factory.h"
-#include "endogenous_state.h"
-#include "exogenous_factory.h"
-#include "state_iterator.h"
+#include "stage_end.h"
+#include "stage.h"
 #include "value_strategy.h"
 
 #include <exception>
-#include <iostream>
 #include <memory>
 #include <vector>
 
 namespace genericdp {
-template <class T> class DP : public DPTemplate<T, DPResult<T>> {
+template <typename T> class DP {
 public:
-  DP(std::unique_ptr<DPStorage<T, DPResult<T>>> storage,
-     std::unique_ptr<const EndogenousIteratorFactory<T>> fact,
-     std::unique_ptr<const ValueStrategy<T>> calculator,
-     std::unique_ptr<const ExogenousFactory<T>> ex_fact);
+  DP(std::unique_ptr<DPStorage<T>> storage,
+     std::vector<std::unique_ptr<Stage<T>>> stages,
+     std::shared_ptr<ValueStrategy<T>> calculator)
+      : storage_(std::move(storage)), calculator_(calculator) {
+    InitStages(std::move(stages));
+  }
 
-  std::vector<DPResult<T>> GetSolution(const T &init_state);
-  void Train(const T &state) override;
+  const DPResult<T> &GetOptimalResult(const T &init_state);
+  double GetOptimalValue(const T &init_state);
+  void Train(const T &state);
+  void TrainIfNecessary(const T &state);
 
 private:
-  std::unique_ptr<const ExogenousFactory<T>> ex_fact_;
+  const DPResult<T> CalculateOptimal(const T &state);
+  void InitStages(std::vector<std::unique_ptr<Stage<T>>> stages);
+  std::unique_ptr<DPStorage<T>> storage_;
+  std::unique_ptr<Stage<T>> stage_stack_;
+  std::shared_ptr<ValueStrategy<T>> calculator_;
 };
 
-template <class T>
-DP<T>::DP(std::unique_ptr<DPStorage<T>> storage,
-          std::unique_ptr<const EndogenousIteratorFactory<T>> fact,
-          std::unique_ptr<const ValueStrategy<T>> calculator,
-          std::unique_ptr<const ExogenousFactory<T>> ex_fact)
-    : DPTemplate<T>(std::move(storage), std::move(fact), std::move(calculator))
-    , ex_fact_(std::move(ex_fact)) {}
-
-template <class T>
-std::vector<DPResult<T>> DP<T>::GetSolution(const T &init_state) {
-  std::vector<DPResult<T>> solution;
-  T cur_state = init_state;
-  try {
-    while (!this->storage_->IsTerminalState(cur_state)) {
-      auto result = this->GetOptimalResult(cur_state);
-      solution.push_back(result);
-      cur_state = result.GetState();
-    }
-  } catch (const std::out_of_range &oor) {
-    std::cerr << "A state was out of range for storage." << std::endl
-              << oor.what() << std::endl;
+template <typename T>
+void DP<T>::InitStages(std::vector<std::unique_ptr<Stage<T>>> stages) {
+  stage_stack_ = std::make_unique<StageEnd<T>>(this, calculator_.get());
+  for (auto it = stages.rbegin(); it != stages.rend(); ++it) {
+    (*it)->SetNextStage(std::move(stage_stack_));
+    stage_stack_ = std::move(*it);
   }
-  return solution;
 }
 
-template <class T> void DP<T>::Train(const T &state) {
-  auto ex_state = ex_fact_->GetExogenous(state);
-  auto opt_state_value = this->CalculateOptimal(*ex_state);
-  DPResult<T> opt_result(ex_state->Clone(), std::move(opt_state_value.first),
-                         opt_state_value.second);
-  this->storage_->StoreOptimalResult(state, opt_result, opt_state_value.second);
+template <typename T>
+const DPResult<T> &DP<T>::GetOptimalResult(const T &state) {  
+  TrainIfNecessary(state);
+  return storage_->GetOptimalResult(state);
 }
+
+template <typename T> double DP<T>::GetOptimalValue(const T &state) {
+  if (storage_->IsTerminalState(state)) {
+    return calculator_->CalculateTerminalValue(state);
+  }
+  TrainIfNecessary(state);
+  return storage_->GetOptimalValue(state);
+}
+
+template <typename T> void DP<T>::TrainIfNecessary(const T &state) {
+  if (!storage_->IsStoredState(state)) {
+    Train(state);
+  }
+}
+
+template <typename T> void DP<T>::Train(const T &state) {
+  storage_->StoreOptimalResult(state, CalculateOptimal(state));
+  auto res = storage_->GetOptimalResult(state);
+}
+
+template <typename T>
+const DPResult<T> DP<T>::CalculateOptimal(const T &state) {
+  DPState<T> temp = DPState<T>(state);
+  return stage_stack_->Evaluate(&temp);
+}
+
 } // namespace genericdp
 #endif // _DP_H_

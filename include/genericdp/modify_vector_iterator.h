@@ -1,6 +1,7 @@
 #ifndef _MODIFY_VECTOR_ITERATOR_H_
 #define _MODIFY_VECTOR_ITERATOR_H_
 
+#include "dp_state.h"
 #include "dp_state_iterator.h"
 #include "modify_strategy_set.h"
 #include <memory>
@@ -9,7 +10,7 @@
 namespace genericdp {
 template <class T> class ModifyVectorIterator : public DPStateIterator<T> {
 public:
-  ModifyVectorIterator(const T &state, const ModifyStrategySet<T> &set)
+  ModifyVectorIterator(const DPState<T> &state, const ModifyStrategySet<T> &set)
       : DPStateIterator<T>(state), it_(set.begin()), end_(set.end()) {
     if (it_ == end_) {
       this->done_ = true;

@@ -2,6 +2,7 @@
 #define _MODIFY_STRATEGY_COMPOSITE_H_
 
 #include "modify_strategy.h"
+#include "dp_state.h"
 #include <memory>
 #include <vector>
 
@@ -15,7 +16,7 @@ template <typename T> class ModifyStrategyComposite : public ModifyStrategy<T> {
     strats_.push_back(strat);
   }
 
-  virtual void Modify(T *state) const override {
+  virtual void Modify(DPState<T> *state) const override {
     for (std::shared_ptr<const ModifyStrategy<T>> strat : strats_) {
       strat->Modify(state);
     }

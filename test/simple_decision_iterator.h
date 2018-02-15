@@ -2,16 +2,17 @@
 #define _SIMPLE_DECISION_ITERATOR_H_
 
 #include "dp_state_iterator.h"
-#include "simple_dp_state.h"
+#include "simple_state.h"
+#include "dp_state.h"
 
 #include <iterator>
 #include <memory>
 
 namespace genericdptest {
 class SimpleDecisionIterator
-    : public genericdp::DPStateIterator<SimpleDPState> {
+    : public genericdp::DPStateIterator<SimpleState> {
 public:
-  SimpleDecisionIterator(const SimpleDPState &state);
+  SimpleDecisionIterator(const genericdp::DPState<SimpleState> &state);
 
 protected:
   virtual void NextTemplate() override;

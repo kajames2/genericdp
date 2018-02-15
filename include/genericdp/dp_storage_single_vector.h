@@ -1,5 +1,5 @@
-#ifndef _SINGLE_VECTOR_DP_STORAGE_H_
-#define _SINGLE_VECTOR_DP_STORAGE_H_
+#ifndef _DP_STORAGE_SINGLE_VECTOR_H_
+#define _DP_STORAGE_SINGLE_VECTOR_H_
 
 #include "dp_result.h"
 #include "dp_storage.h"
@@ -7,7 +7,7 @@
 #include <vector>
 
 namespace genericdp {
-template <typename Key> class SingleVectorDPStorage : public DPStorage<Key> {
+template <typename Key> class DPStorageSingleVector : public DPStorage<Key> {
 public:
   const DPResult<Key> &GetOptimalResult(const Key &state) const;
   virtual bool IsTerminalState(const Key &state) const = 0;
@@ -15,11 +15,11 @@ public:
   double GetOptimalValue(const Key &state) const;
   void StoreOptimalResult(const Key &state, DPResult<Key> opt_result);
 
-  SingleVectorDPStorage() = default;
-  explicit SingleVectorDPStorage(int max_length);
-  SingleVectorDPStorage(const SingleVectorDPStorage &) = delete;
-  SingleVectorDPStorage &operator=(const SingleVectorDPStorage &) = delete;
-  virtual ~SingleVectorDPStorage() {}
+  DPStorageSingleVector() = default;
+  explicit DPStorageSingleVector(int max_length);
+  DPStorageSingleVector(const DPStorageSingleVector &) = delete;
+  DPStorageSingleVector &operator=(const DPStorageSingleVector &) = delete;
+  virtual ~DPStorageSingleVector() {}
 
 protected:
   virtual bool IsValidState(const Key &state) const = 0;
@@ -31,29 +31,29 @@ protected:
 };
 
 template <typename Key>
-SingleVectorDPStorage<Key>::SingleVectorDPStorage(int max_length)
+DPStorageSingleVector<Key>::DPStorageSingleVector(int max_length)
     : result_table_(max_length), value_table_(max_length),
       is_stored_table_(max_length) {
   
 }
 template <typename Key>
-bool SingleVectorDPStorage<Key>::IsStoredState(const Key &state) const {
+bool DPStorageSingleVector<Key>::IsStoredState(const Key &state) const {
   return is_stored_table_.at(GetIndex(state));
 }
 
 template <typename Key>
-double SingleVectorDPStorage<Key>::GetOptimalValue(const Key &state) const {
+double DPStorageSingleVector<Key>::GetOptimalValue(const Key &state) const {
   return value_table_.at(GetIndex(state));
 }
 
 template <typename Key>
 const DPResult<Key> &
-SingleVectorDPStorage<Key>::GetOptimalResult(const Key &state) const {
+DPStorageSingleVector<Key>::GetOptimalResult(const Key &state) const {
   return result_table_.at(GetIndex(state));
 }
 
 template <typename Key>
-void SingleVectorDPStorage<Key>::StoreOptimalResult(const Key &state,
+void DPStorageSingleVector<Key>::StoreOptimalResult(const Key &state,
                                                     DPResult<Key> opt_result) {
   result_table_.at(GetIndex(state)) = opt_result;
   value_table_.at(GetIndex(state)) = opt_result.GetValue();
@@ -61,4 +61,4 @@ void SingleVectorDPStorage<Key>::StoreOptimalResult(const Key &state,
 }
 
 } // namespace genericdp
-#endif // _SINGLE_VECTOR_DP_STORAGE_H_
+#endif // _DP_STORAGE_SINGLE_VECTOR_H_

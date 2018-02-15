@@ -4,16 +4,16 @@
 #include <memory>
 
 namespace genericdp {
-class DPState {
+template <typename T> class DPState {
 public:
-  DPState() : probability(1), immediate_value(0), future_value(0), value(0) {}
-  void Reset() {
-    probability = 1;
-    immediate_value = 0;
-    future_value = 1;
-    value = 1;
+  DPState()
+      : probability(1), immediate_value(0), future_value(0), value(0), domain() {
   }
-  
+  DPState(T in_domain)
+      : probability(1), immediate_value(0), future_value(0), value(0),
+        domain(in_domain) {}
+
+  T domain;
   double probability;
   double immediate_value;
   double future_value;

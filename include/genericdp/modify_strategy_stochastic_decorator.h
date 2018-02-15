@@ -1,6 +1,7 @@
 #ifndef _MODIFY_STRATEGY_STOCHASTIC_DECORATOR_H_
 #define _MODIFY_STRATEGY_STOCHASTIC_DECORATOR_H_
 
+#include "dp_state.h"
 #include "modify_strategy.h"
 #include "probability_strategy.h"
 #include <memory>
@@ -14,7 +15,7 @@ public:
       std::shared_ptr<const ModifyStrategy<T>> strat,
       std::shared_ptr<const ProbabilityStrategy<T>> prob)
       : strat_(strat), prob_(prob) {}
-  virtual void Modify(T *state) const {
+  virtual void Modify(DPState<T> *state) const {
     strat_->Modify(state);
     state->probability *= prob_->GetProbability(*state);
   }

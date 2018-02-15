@@ -3,16 +3,17 @@
 
 #include "dp_state_iterator_factory.h"
 #include "simple_decision_iterator.h"
+#include "dp_state.h"
 
 #include <memory>
 
 namespace genericdptest {
 class SimpleDecisionIteratorFactory
-    : public genericdp::DPStateIteratorFactory<SimpleDPState> {
+    : public genericdp::DPStateIteratorFactory<SimpleState> {
 public:
   SimpleDecisionIteratorFactory() {}
-  virtual std::unique_ptr<genericdp::DPStateIterator<SimpleDPState>>
-  GetIterator(const SimpleDPState &input) const override {
+  virtual std::unique_ptr<genericdp::DPStateIterator<SimpleState>>
+  GetIterator(const genericdp::DPState<SimpleState> &input) const override {
     return std::make_unique<SimpleDecisionIterator>(input);
   }
 };

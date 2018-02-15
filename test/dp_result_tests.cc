@@ -1,4 +1,4 @@
-#include "simple_dp_state.h"
+#include "simple_state.h"
 #include "dp_result.h"
 
 #include <gtest/gtest.h>
@@ -20,11 +20,11 @@ class DPResultTest : public ::testing::Test {
     state2_.immediate_value = 50;
     state2_.future_value = 10;
   }
-  genericdptest::SimpleDPState state1_, state2_;
+  genericdp::DPState<genericdptest::SimpleState> state1_, state2_;
 };
 
 TEST_F(DPResultTest, AddStateAggregatedValues) {
-  genericdp::DPResult<genericdptest::SimpleDPState> res;
+  genericdp::DPResult<genericdptest::SimpleState> res;
   res.AddState(state1_);
   res.AddState(state2_);
   ASSERT_DOUBLE_EQ(res.GetFutureValue(), 8);
@@ -34,31 +34,31 @@ TEST_F(DPResultTest, AddStateAggregatedValues) {
 }
 
 TEST_F(DPResultTest, AddStateAccessor) {
-  genericdp::DPResult<genericdptest::SimpleDPState> res;
+  genericdp::DPResult<genericdptest::SimpleState> res;
   res.AddState(state1_);
   res.AddState(state2_);
   ASSERT_DOUBLE_EQ(res[0].value, 20);
 }
 
 TEST_F(DPResultTest, AddStateStoredStates) {
-  genericdp::DPResult<genericdptest::SimpleDPState> res;
+  genericdp::DPResult<genericdptest::SimpleState> res;
   res.AddState(state1_);
   res.AddState(state2_);
   ASSERT_DOUBLE_EQ(res.GetStates()[0].value, 20);
 }
 
 TEST_F(DPResultTest, SingleStateConstructor) {
-  genericdp::DPResult<genericdptest::SimpleDPState> res(state1_);
+  genericdp::DPResult<genericdptest::SimpleState> res(state1_);
   ASSERT_DOUBLE_EQ(res.GetFutureValue(), 2);
   ASSERT_DOUBLE_EQ(res.GetStates()[0].value, 20);
 }
 
 TEST_F(DPResultTest, AddResultTest) {
-  genericdp::DPResult<genericdptest::SimpleDPState> res;
+  genericdp::DPResult<genericdptest::SimpleState> res;
   res.AddState(state1_);
-  genericdp::DPResult<genericdptest::SimpleDPState> res2;
+  genericdp::DPResult<genericdptest::SimpleState> res2;
   res2.AddState(state2_);
-  res.AddResult(&res2);
+  res.AddResult(res2);
   ASSERT_DOUBLE_EQ(res.GetFutureValue(), 8);
   ASSERT_DOUBLE_EQ(res.GetImmediateValue(), 34);
   ASSERT_DOUBLE_EQ(res.GetValue(), 68);
