@@ -28,4 +28,4 @@ class ModifyStrategyStochasticDecorator : public ModifyStrategy<T> {
 
 }  // namespace genericdp
 
-#endif  //_GENERICDP_MODIFY_STRATEGY_STOCHASTIC_DECORATOR_H_
+#endif  // _GENERICDP_MODIFY_STRATEGY_STOCHASTIC_DECORATOR_H_

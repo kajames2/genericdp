@@ -8,7 +8,7 @@ namespace genericdp {
 template <typename T>
 class ProbabilityStrategyFixed : public ProbabilityStrategy<T> {
  public:
-  ProbabilityStrategyFixed(double prob) : prob_(prob) {}
+  explicit ProbabilityStrategyFixed(double prob) : prob_(prob) {}
   double GetProbability(const T &state) const override { return prob_; }
 
  private:
@@ -17,4 +17,4 @@ class ProbabilityStrategyFixed : public ProbabilityStrategy<T> {
 
 }  // namespace genericdp
 
-#endif  //_GENERICDP_PROBABILITY_STRATEGY_FIXED_H_
+#endif  // _GENERICDP_PROBABILITY_STRATEGY_FIXED_H_

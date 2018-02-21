@@ -2,6 +2,7 @@
 #define _GENERICDP_STAGE_EXOGENOUS_H_
 
 #include <memory>
+#include <utility>
 
 #include "genericdp/dp_result.h"
 #include "genericdp/modify_strategy.h"
@@ -12,8 +13,8 @@ namespace genericdp {
 template <typename T>
 class StageExogenous : public Stage<T> {
  public:
-  StageExogenous(std::shared_ptr<ModifyStrategy<T>> mod_strat);
-  virtual DPResult<T> Evaluate(DPState<T> *state) override;
+  explicit StageExogenous(std::shared_ptr<ModifyStrategy<T>> mod_strat);
+  DPResult<T> Evaluate(DPState<T> *state) override;
 
  protected:
   std::shared_ptr<ModifyStrategy<T>> mod_strat_;

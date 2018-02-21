@@ -18,7 +18,7 @@ class ModifyStrategyComposite : public ModifyStrategy<T> {
     strats_.push_back(strat);
   }
 
-  virtual void Modify(DPState<T> *state) const override {
+  void Modify(DPState<T> *state) const override {
     for (std::shared_ptr<const ModifyStrategy<T>> strat : strats_) {
       strat->Modify(state);
     }
@@ -30,4 +30,4 @@ class ModifyStrategyComposite : public ModifyStrategy<T> {
 
 }  // namespace genericdp
 
-#endif  //_GENERICDP_MODIFY_STRATEGY_COMPOSITE_H_
+#endif  // _GENERICDP_MODIFY_STRATEGY_COMPOSITE_H_

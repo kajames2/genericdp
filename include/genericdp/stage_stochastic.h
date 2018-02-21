@@ -2,6 +2,7 @@
 #define _GENERICDP_STAGE_STOCHASTIC_H_
 
 #include <memory>
+#include <utility>
 
 #include "genericdp/dp_result.h"
 #include "genericdp/dp_state.h"
@@ -13,8 +14,8 @@ namespace genericdp {
 template <typename T>
 class StageStochastic : public Stage<T> {
  public:
-  StageStochastic(std::unique_ptr<DPStateIteratorFactory<T>> fact_);
-  virtual DPResult<T> Evaluate(DPState<T> *state) override;
+  explicit StageStochastic(std::unique_ptr<DPStateIteratorFactory<T>> fact_);
+  DPResult<T> Evaluate(DPState<T> *state) override;
 
  private:
   std::unique_ptr<DPStateIteratorFactory<T>> fact_;

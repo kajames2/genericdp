@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include "genericdp/dp_result.h"

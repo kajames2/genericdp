@@ -3,6 +3,7 @@
 
 #include <gtest/gtest.h>
 
+#include "genericdp/dp_state.h"
 #include "genericdp/modify_strategy_set.h"
 #include "genericdp/modify_vector_iterator.h"
 #include "simple_shock_modify_strategy.h"
@@ -22,19 +23,18 @@ class ModifyVectorIteratorTest : public ::testing::Test {
     shocks_.AddStrategy(mod_strat_1_);
     shocks_.AddStrategy(mod_strat_2_);
 
-    state_ = std::make_unique<genericdptest::SimpleState>();
-    state_->cash = 10;
-    state_->period = 4;
+    state_.cash = 10;
+    state_.period = 4;
 
     it_ = std::make_unique<
-        genericdp::ModifyVectorIterator<genericdptest::SimpleState>>(*state_,
-                                                                     shocks_);
+        genericdp::ModifyVectorIterator<genericdptest::SimpleState>>(
+        genericdp::DPState<genericdptest::SimpleState>(state_), shocks_);
   }
 
   std::unique_ptr<genericdp::ModifyVectorIterator<genericdptest::SimpleState>>
       it_;
   genericdp::ModifyStrategySet<genericdptest::SimpleState> shocks_;
-  std::unique_ptr<genericdptest::SimpleState> state_;
+  genericdptest::SimpleState state_;
 };
 
 TEST_F(ModifyVectorIteratorTest, IncrementTest) {

@@ -13,15 +13,16 @@ namespace genericdp {
 template <class T>
 class ModifyVectorIteratorFactory : public DPStateIteratorFactory<T> {
  public:
-  ModifyVectorIteratorFactory(ModifyStrategySet<T> mod_set)
+  explicit ModifyVectorIteratorFactory(ModifyStrategySet<T> mod_set)
       : mod_set_(mod_set) {}
   virtual std::unique_ptr<DPStateIterator<T>> GetIterator(
       const DPState<T> &input) const {
     return std::make_unique<ModifyVectorIterator<T>>(input, mod_set_);
-  };
+  }
 
  private:
   ModifyStrategySet<T> mod_set_;
 };
+
 }  // namespace genericdp
 #endif  // _GENERICDP_MODIFY_VECTOR_ITERATOR_FACTORY_H_

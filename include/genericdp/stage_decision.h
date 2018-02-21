@@ -2,6 +2,7 @@
 #define _GENERICDP_STAGE_DECISION_H_
 
 #include <memory>
+#include <utility>
 
 #include "genericdp/dp_result.h"
 #include "genericdp/dp_state_iterator.h"
@@ -13,8 +14,8 @@ namespace genericdp {
 template <typename T>
 class StageDecision : public Stage<T> {
  public:
-  StageDecision(std::unique_ptr<DPStateIteratorFactory<T>> fact);
-  virtual DPResult<T> Evaluate(DPState<T> *state) override;
+  explicit StageDecision(std::unique_ptr<DPStateIteratorFactory<T>> fact);
+  DPResult<T> Evaluate(DPState<T> *state) override;
 
  protected:
   std::unique_ptr<DPStateIteratorFactory<T>> fact_;

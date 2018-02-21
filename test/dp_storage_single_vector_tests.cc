@@ -4,7 +4,6 @@
 #include <gtest/gtest.h>
 
 #include "genericdp/dp_result.h"
-#include "genericdp/dp_storage_single_vector.h"
 #include "simple_state.h"
 #include "simple_storage.h"
 

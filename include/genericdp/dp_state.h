@@ -13,7 +13,7 @@ class DPState {
         future_value(0),
         value(0),
         domain() {}
-  DPState(T in_domain)
+  explicit DPState(T in_domain)
       : probability(1),
         immediate_value(0),
         future_value(0),

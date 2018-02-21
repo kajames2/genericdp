@@ -13,9 +13,9 @@ class DP;
 template <typename T>
 class StageEnd : public Stage<T> {
  public:
-  StageEnd(DP<T> *dp, ValueStrategy<T> *calculator)
+  explicit StageEnd(DP<T> *dp, ValueStrategy<T> *calculator)
       : Stage<T>(nullptr), dp_(dp), calculator_(calculator) {}
-  virtual DPResult<T> Evaluate(DPState<T> *state) override {
+  DPResult<T> Evaluate(DPState<T> *state) override {
     state->future_value = dp_->GetOptimalValue(state->domain);
     state->value = calculator_->CalculateValue(state->immediate_value,
                                                state->future_value);

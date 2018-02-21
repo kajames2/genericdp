@@ -39,7 +39,7 @@ class DPStateIterator : public std::iterator<std::forward_iterator_tag, T> {
   virtual ~DPStateIterator() {}
 
  protected:
-  DPStateIterator(const DPState<T> &state)
+  explicit DPStateIterator(const DPState<T> &state)
       : state_(state), template_state_(state), done_(false) {
     SetState();
   }

@@ -2,6 +2,7 @@
 #define _GENERICDP_STAGE_H_
 
 #include <memory>
+#include <utility>
 
 #include "genericdp/dp_result.h"
 
@@ -10,7 +11,7 @@ namespace genericdp {
 template <typename T>
 class Stage {
  public:
-  Stage(std::unique_ptr<Stage> next_stage);
+  explicit Stage(std::unique_ptr<Stage> next_stage);
   void SetNextStage(std::unique_ptr<Stage> next_stage) {
     next_stage_ = std::move(next_stage);
   }
@@ -34,7 +35,7 @@ DPResult<T> Stage<T>::ProcessNext(DPState<T> *state) {
     return DPResult<T>(state);
   }
   return next_stage_->Evaluate(state);
-};
+}
 
 }  // namespace genericdp
 #endif  // _GENERICDP_STAGE_H_

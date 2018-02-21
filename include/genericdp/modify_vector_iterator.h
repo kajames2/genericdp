@@ -22,7 +22,7 @@ class ModifyVectorIterator : public DPStateIterator<T> {
   }
 
  protected:
-  virtual void NextState() override {
+  void NextState() override {
     if (++it_ == end_) {
       this->done_ = true;
     } else {

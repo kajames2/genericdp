@@ -44,5 +44,4 @@ class ModifyStrategySet {
 };
 
 }  // namespace genericdp
-
-#endif  //_GENERICDP_MODIFY_STRATEGY_SET_H_
+#endif  // _GENERICDP_MODIFY_STRATEGY_SET_H_

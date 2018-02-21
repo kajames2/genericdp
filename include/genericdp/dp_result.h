@@ -2,6 +2,7 @@
 #define _GENERICDP_DP_RESULT_H_
 
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include "genericdp/dp_state.h"
@@ -11,7 +12,7 @@ template <typename T>
 class DPResult {
  public:
   DPResult();
-  DPResult(DPState<T>* state);
+  explicit DPResult(DPState<T>* state);
 
   void AddState(DPState<T>* state) {
     probability_ += state->probability;
