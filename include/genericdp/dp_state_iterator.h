@@ -1,15 +1,15 @@
-#ifndef _DP_STATE_ITERATOR_H_
-#define _DP_STATE_ITERATOR_H_
-
-#include "dp_state.h"
+#ifndef _GENERICDP_DP_STATE_ITERATOR_H_
+#define _GENERICDP_DP_STATE_ITERATOR_H_
 
 #include <iterator>
 #include <memory>
 
+#include "genericdp/dp_state.h"
+
 namespace genericdp {
 template <class T>
 class DPStateIterator : public std::iterator<std::forward_iterator_tag, T> {
-public:
+ public:
   using reference = DPState<T> &;
   using pointer = DPState<T> *;
 
@@ -38,7 +38,7 @@ public:
   DPStateIterator &operator=(const DPStateIterator &) = delete;
   virtual ~DPStateIterator() {}
 
-protected:
+ protected:
   DPStateIterator(const DPState<T> &state)
       : state_(state), template_state_(state), done_(false) {
     SetState();
@@ -50,5 +50,5 @@ protected:
   DPState<T> state_;
   DPState<T> template_state_;
 };
-} // namespace genericdp
-#endif // _DP_STATE_ITERATOR_H_
+}  // namespace genericdp
+#endif  // _GENERICDP_DP_STATE_ITERATOR_H_

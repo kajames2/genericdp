@@ -1,17 +1,18 @@
-#include "dp_storage_single_vector.h"
-#include "dp_result.h"
-#include "simple_state.h"
-#include "simple_storage.h"
-
-#include <gtest/gtest.h>
 #include <iostream>
 #include <memory>
 
+#include <gtest/gtest.h>
+
+#include "genericdp/dp_result.h"
+#include "genericdp/dp_storage_single_vector.h"
+#include "simple_state.h"
+#include "simple_storage.h"
+
 class DPStorageSingleVectorTest : public ::testing::Test {
-public:
+ public:
   DPStorageSingleVectorTest() {}
 
-protected:
+ protected:
   virtual void SetUp() {
     storage_ = std::make_unique<genericdptest::SimpleStorage>(5, 5);
     state_.cash = 3;
@@ -24,7 +25,7 @@ protected:
     dp_state_.immediate_value = 1;
     dp_state_.value = 2;
     dp_state_.domain.investment = 5;
-    res_.AddState(dp_state_);
+    res_.AddState(&dp_state_);
   }
 
   std::unique_ptr<genericdptest::SimpleStorage> storage_;

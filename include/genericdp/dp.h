@@ -1,20 +1,21 @@
-#ifndef _DP_H_
-#define _DP_H_
-
-#include "dp_result.h"
-#include "dp_state.h"
-#include "dp_storage.h"
-#include "stage_end.h"
-#include "stage.h"
-#include "value_strategy.h"
+#ifndef _GENERICDP_DP_H_
+#define _GENERICDP_DP_H_
 
 #include <exception>
 #include <memory>
 #include <vector>
 
+#include "genericdp/dp_result.h"
+#include "genericdp/dp_state.h"
+#include "genericdp/dp_storage.h"
+#include "genericdp/stage.h"
+#include "genericdp/stage_end.h"
+#include "genericdp/value_strategy.h"
+
 namespace genericdp {
-template <typename T> class DP {
-public:
+template <typename T>
+class DP {
+ public:
   DP(std::unique_ptr<DPStorage<T>> storage,
      std::vector<std::unique_ptr<Stage<T>>> stages,
      std::shared_ptr<ValueStrategy<T>> calculator)
@@ -27,7 +28,7 @@ public:
   void Train(const T &state);
   void TrainIfNecessary(const T &state);
 
-private:
+ private:
   const DPResult<T> CalculateOptimal(const T &state);
   void InitStages(std::vector<std::unique_ptr<Stage<T>>> stages);
   std::unique_ptr<DPStorage<T>> storage_;
@@ -45,12 +46,13 @@ void DP<T>::InitStages(std::vector<std::unique_ptr<Stage<T>>> stages) {
 }
 
 template <typename T>
-const DPResult<T> &DP<T>::GetOptimalResult(const T &state) {  
+const DPResult<T> &DP<T>::GetOptimalResult(const T &state) {
   TrainIfNecessary(state);
   return storage_->GetOptimalResult(state);
 }
 
-template <typename T> double DP<T>::GetOptimalValue(const T &state) {
+template <typename T>
+double DP<T>::GetOptimalValue(const T &state) {
   if (storage_->IsTerminalState(state)) {
     return calculator_->CalculateTerminalValue(state);
   }
@@ -58,13 +60,15 @@ template <typename T> double DP<T>::GetOptimalValue(const T &state) {
   return storage_->GetOptimalValue(state);
 }
 
-template <typename T> void DP<T>::TrainIfNecessary(const T &state) {
+template <typename T>
+void DP<T>::TrainIfNecessary(const T &state) {
   if (!storage_->IsStoredState(state)) {
     Train(state);
   }
 }
 
-template <typename T> void DP<T>::Train(const T &state) {
+template <typename T>
+void DP<T>::Train(const T &state) {
   storage_->StoreOptimalResult(state, CalculateOptimal(state));
   auto res = storage_->GetOptimalResult(state);
 }
@@ -75,5 +79,5 @@ const DPResult<T> DP<T>::CalculateOptimal(const T &state) {
   return stage_stack_->Evaluate(&temp);
 }
 
-} // namespace genericdp
-#endif // _DP_H_
+}  // namespace genericdp
+#endif  // _GENERICDP_DP_H_

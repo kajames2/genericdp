@@ -1,14 +1,16 @@
-#ifndef _MODIFY_STRATEGY_COMPOSITE_H_
-#define _MODIFY_STRATEGY_COMPOSITE_H_
+#ifndef _GENERICDP_MODIFY_STRATEGY_COMPOSITE_H_
+#define _GENERICDP_MODIFY_STRATEGY_COMPOSITE_H_
 
-#include "modify_strategy.h"
-#include "dp_state.h"
 #include <memory>
 #include <vector>
 
+#include "genericdp/dp_state.h"
+#include "genericdp/modify_strategy.h"
+
 namespace genericdp {
 
-template <typename T> class ModifyStrategyComposite : public ModifyStrategy<T> {
+template <typename T>
+class ModifyStrategyComposite : public ModifyStrategy<T> {
  public:
   ModifyStrategyComposite() : strats_() {}
 
@@ -22,10 +24,10 @@ template <typename T> class ModifyStrategyComposite : public ModifyStrategy<T> {
     }
   }
 
-private:
+ private:
   std::vector<std::shared_ptr<const ModifyStrategy<T>>> strats_;
 };
 
-} // namespace genericdp
+}  // namespace genericdp
 
-#endif //_MODIFY_STRATEGY_COMPOSITE_H_
+#endif  //_GENERICDP_MODIFY_STRATEGY_COMPOSITE_H_

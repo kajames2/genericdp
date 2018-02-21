@@ -1,21 +1,22 @@
-#ifndef _STAGE_DECISION_H_
-#define _STAGE_DECISION_H_
-
-#include "dp_result.h"
-#include "dp_state_iterator.h"
-#include "dp_state_iterator_factory.h"
-#include "stage.h"
+#ifndef _GENERICDP_STAGE_DECISION_H_
+#define _GENERICDP_STAGE_DECISION_H_
 
 #include <memory>
 
+#include "genericdp/dp_result.h"
+#include "genericdp/dp_state_iterator.h"
+#include "genericdp/dp_state_iterator_factory.h"
+#include "genericdp/stage.h"
+
 namespace genericdp {
 
-template <typename T> class StageDecision : public Stage<T> {
-public:
+template <typename T>
+class StageDecision : public Stage<T> {
+ public:
   StageDecision(std::unique_ptr<DPStateIteratorFactory<T>> fact);
   virtual DPResult<T> Evaluate(DPState<T> *state) override;
 
-protected:
+ protected:
   std::unique_ptr<DPStateIteratorFactory<T>> fact_;
 };
 
@@ -37,5 +38,5 @@ DPResult<T> StageDecision<T>::Evaluate(DPState<T> *state) {
   return opt_out;
 }
 
-} // namespace genericdp
-#endif // _STAGE_DECISION_H_
+}  // namespace genericdp
+#endif  // _GENERICDP_STAGE_DECISION_H_

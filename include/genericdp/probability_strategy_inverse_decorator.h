@@ -1,14 +1,15 @@
-#ifndef _PROBABILITY_STRATEGY_INVERSE_DECORATOR_H_
-#define _PROBABILITY_STRATEGY_INVERSE_DECORATOR_H_
+#ifndef _GENERICDP_PROBABILITY_STRATEGY_INVERSE_DECORATOR_H_
+#define _GENERICDP_PROBABILITY_STRATEGY_INVERSE_DECORATOR_H_
 
-#include "probability_strategy.h"
 #include <memory>
+
+#include "genericdp/probability_strategy.h"
 
 namespace genericdp {
 
 template <typename T>
 class ProbabilityStrategyInverseDecorator : public ProbabilityStrategy<T> {
-public:
+ public:
   ProbabilityStrategyInverseDecorator(
       std::shared_ptr<const ProbabilityStrategy<T>> prob)
       : prob_(prob) {}
@@ -16,10 +17,10 @@ public:
     return 1 - prob_->GetProbability(state);
   };
 
-private:
+ private:
   std::shared_ptr<const ProbabilityStrategy<T>> prob_;
 };
 
-} // namespace genericdp
+}  // namespace genericdp
 
-#endif //_PROBABILITY_STRATEGY_INVERSE_DECORATOR_H_
+#endif  //_GENERICDP_PROBABILITY_STRATEGY_INVERSE_DECORATOR_H_

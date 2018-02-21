@@ -11,7 +11,7 @@ OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 TESTOBJECTS := $(patsubst $(TESTDIR)/%,$(BUILDDIR)/%,$(TESTS:.$(SRCEXT)=.o))
 CFLAGS := -g -std=c++14 -O3 -flto
 LIB := -lgtest -lgtest_main -lpthread
-INC := -I include/genericdp
+INC := -I include
 
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."

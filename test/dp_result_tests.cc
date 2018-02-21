@@ -1,8 +1,9 @@
-#include "simple_state.h"
-#include "dp_result.h"
+#include <memory>
 
 #include <gtest/gtest.h>
-#include <memory>
+
+#include "genericdp/dp_result.h"
+#include "simple_state.h"
 
 class DPResultTest : public ::testing::Test {
  public:
@@ -25,8 +26,8 @@ class DPResultTest : public ::testing::Test {
 
 TEST_F(DPResultTest, AddStateAggregatedValues) {
   genericdp::DPResult<genericdptest::SimpleState> res;
-  res.AddState(state1_);
-  res.AddState(state2_);
+  res.AddState(&state1_);
+  res.AddState(&state2_);
   ASSERT_DOUBLE_EQ(res.GetFutureValue(), 8);
   ASSERT_DOUBLE_EQ(res.GetImmediateValue(), 34);
   ASSERT_DOUBLE_EQ(res.GetValue(), 68);
@@ -35,30 +36,30 @@ TEST_F(DPResultTest, AddStateAggregatedValues) {
 
 TEST_F(DPResultTest, AddStateAccessor) {
   genericdp::DPResult<genericdptest::SimpleState> res;
-  res.AddState(state1_);
-  res.AddState(state2_);
+  res.AddState(&state1_);
+  res.AddState(&state2_);
   ASSERT_DOUBLE_EQ(res[0].value, 20);
 }
 
 TEST_F(DPResultTest, AddStateStoredStates) {
   genericdp::DPResult<genericdptest::SimpleState> res;
-  res.AddState(state1_);
-  res.AddState(state2_);
-  ASSERT_DOUBLE_EQ(res.GetStates()[0].value, 20);
+  res.AddState(&state1_);
+  res.AddState(&state2_);
+  ASSERT_DOUBLE_EQ(res[0].value, 20);
 }
 
 TEST_F(DPResultTest, SingleStateConstructor) {
-  genericdp::DPResult<genericdptest::SimpleState> res(state1_);
+  genericdp::DPResult<genericdptest::SimpleState> res(&state1_);
   ASSERT_DOUBLE_EQ(res.GetFutureValue(), 2);
-  ASSERT_DOUBLE_EQ(res.GetStates()[0].value, 20);
+  ASSERT_DOUBLE_EQ(res[0].value, 20);
 }
 
 TEST_F(DPResultTest, AddResultTest) {
   genericdp::DPResult<genericdptest::SimpleState> res;
-  res.AddState(state1_);
+  res.AddState(&state1_);
   genericdp::DPResult<genericdptest::SimpleState> res2;
-  res2.AddState(state2_);
-  res.AddResult(res2);
+  res2.AddState(&state2_);
+  res.AddResult(&res2);
   ASSERT_DOUBLE_EQ(res.GetFutureValue(), 8);
   ASSERT_DOUBLE_EQ(res.GetImmediateValue(), 34);
   ASSERT_DOUBLE_EQ(res.GetValue(), 68);

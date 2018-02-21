@@ -1,16 +1,17 @@
-#ifndef _MODIFY_STRATEGY_STOCHASTIC_DECORATOR_H_
-#define _MODIFY_STRATEGY_STOCHASTIC_DECORATOR_H_
+#ifndef _GENERICDP_MODIFY_STRATEGY_STOCHASTIC_DECORATOR_H_
+#define _GENERICDP_MODIFY_STRATEGY_STOCHASTIC_DECORATOR_H_
 
-#include "dp_state.h"
-#include "modify_strategy.h"
-#include "probability_strategy.h"
 #include <memory>
+
+#include "genericdp/dp_state.h"
+#include "genericdp/modify_strategy.h"
+#include "genericdp/probability_strategy.h"
 
 namespace genericdp {
 
 template <typename T>
 class ModifyStrategyStochasticDecorator : public ModifyStrategy<T> {
-public:
+ public:
   ModifyStrategyStochasticDecorator(
       std::shared_ptr<const ModifyStrategy<T>> strat,
       std::shared_ptr<const ProbabilityStrategy<T>> prob)
@@ -20,11 +21,11 @@ public:
     state->probability *= prob_->GetProbability(*state);
   }
 
-private:
+ private:
   std::shared_ptr<const ModifyStrategy<T>> strat_;
   std::shared_ptr<const ProbabilityStrategy<T>> prob_;
 };
 
-} // namespace genericdp
+}  // namespace genericdp
 
-#endif //_MODIFY_STRATEGY_STOCHASTIC_DECORATOR_H_
+#endif  //_GENERICDP_MODIFY_STRATEGY_STOCHASTIC_DECORATOR_H_

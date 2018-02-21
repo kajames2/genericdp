@@ -1,26 +1,26 @@
-#ifndef _STAGE_EXOGENOUS_H_
-#define _STAGE_EXOGENOUS_H_
-
-#include "dp_result.h"
-#include "stage.h"
-#include "modify_strategy.h"
+#ifndef _GENERICDP_STAGE_EXOGENOUS_H_
+#define _GENERICDP_STAGE_EXOGENOUS_H_
 
 #include <memory>
 
+#include "genericdp/dp_result.h"
+#include "genericdp/modify_strategy.h"
+#include "genericdp/stage.h"
+
 namespace genericdp {
 
-template <typename T> class StageExogenous : public Stage<T> {
-public:
+template <typename T>
+class StageExogenous : public Stage<T> {
+ public:
   StageExogenous(std::shared_ptr<ModifyStrategy<T>> mod_strat);
   virtual DPResult<T> Evaluate(DPState<T> *state) override;
 
-protected:
+ protected:
   std::shared_ptr<ModifyStrategy<T>> mod_strat_;
 };
 
 template <typename T>
-StageExogenous<T>::StageExogenous(
-    std::shared_ptr<ModifyStrategy<T>> mod_strat)
+StageExogenous<T>::StageExogenous(std::shared_ptr<ModifyStrategy<T>> mod_strat)
     : Stage<T>(nullptr), mod_strat_(mod_strat) {}
 
 template <typename T>
@@ -29,5 +29,5 @@ DPResult<T> StageExogenous<T>::Evaluate(DPState<T> *state) {
   return this->ProcessNext(state);
 }
 
-} // namespace genericdp
-#endif // _STAGE_EXOGENOUS_H_
+}  // namespace genericdp
+#endif  // _GENERICDP_STAGE_EXOGENOUS_H_

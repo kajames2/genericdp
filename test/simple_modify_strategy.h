@@ -1,9 +1,9 @@
 #ifndef _SIMPLE_MODIFY_STRATEGY_H_
 #define _SIMPLE_MODIFY_STRATEGY_H_
 
-#include "dp_state.h"
+#include "genericdp/dp_state.h"
+#include "genericdp/modify_strategy.h"
 #include "simple_state.h"
-#include "modify_strategy.h"
 
 namespace genericdptest {
 
@@ -12,6 +12,6 @@ class SimpleModifyStrategy : public genericdp::ModifyStrategy<SimpleState> {
   virtual void Modify(genericdp::DPState<SimpleState>* state) const override;
 };
 
-} // namespace genericdptest
+}  // namespace genericdptest
 
-#endif // _SIMPLE_MODIFY_STRATEGY_H_
+#endif  // _SIMPLE_MODIFY_STRATEGY_H_

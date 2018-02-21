@@ -1,16 +1,18 @@
-#ifndef _MODIFY_STRATEGY_SET_H_
-#define _MODIFY_STRATEGY_SET_H_
+#ifndef _GENERICDP_MODIFY_STRATEGY_SET_H_
+#define _GENERICDP_MODIFY_STRATEGY_SET_H_
 
-#include "modify_strategy.h"
-#include "modify_strategy_stochastic_decorator.h"
-#include "probability_strategy_inverse_decorator.h"
 #include <memory>
 #include <vector>
 
+#include "genericdp/modify_strategy.h"
+#include "genericdp/modify_strategy_stochastic_decorator.h"
+#include "genericdp/probability_strategy_inverse_decorator.h"
+
 namespace genericdp {
 
-template <typename T> class ModifyStrategySet {
-public:
+template <typename T>
+class ModifyStrategySet {
+ public:
   using const_iterator = typename std::vector<
       std::shared_ptr<const ModifyStrategy<T>>>::const_iterator;
   ModifyStrategySet() : strats_() {}
@@ -19,11 +21,13 @@ public:
                     std::shared_ptr<const ProbabilityStrategy<T>> prob)
       : strats_() {
     auto if_strat =
-        std::make_shared<const ModifyStrategyStochasticDecorator<T>>(if_choice, prob);
+        std::make_shared<const ModifyStrategyStochasticDecorator<T>>(if_choice,
+                                                                     prob);
     auto else_prob =
         std::make_shared<const ProbabilityStrategyInverseDecorator<T>>(prob);
-    auto else_strat = std::make_shared<const ModifyStrategyStochasticDecorator<T>>(
-        else_choice, else_prob);
+    auto else_strat =
+        std::make_shared<const ModifyStrategyStochasticDecorator<T>>(
+            else_choice, else_prob);
     AddStrategy(if_strat);
     AddStrategy(else_strat);
   }
@@ -35,10 +39,10 @@ public:
 
   const_iterator end() const noexcept { return strats_.end(); };
 
-private:
+ private:
   std::vector<std::shared_ptr<const ModifyStrategy<T>>> strats_;
 };
 
-} // namespace genericdp
+}  // namespace genericdp
 
-#endif //_MODIFY_STRATEGY_SET_H_
+#endif  //_GENERICDP_MODIFY_STRATEGY_SET_H_

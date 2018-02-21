@@ -1,15 +1,17 @@
-#ifndef _MODIFY_STRATEGY_H_
-#define _MODIFY_STRATEGY_H_
+#ifndef _GENERICDP_MODIFY_STRATEGY_H_
+#define _GENERICDP_MODIFY_STRATEGY_H_
 
-#include "dp_state.h"
+#include "genericdp/dp_state.h"
 
 namespace genericdp {
 
-template <typename T> class ModifyStrategy {
-public:
+template <typename T>
+class ModifyStrategy {
+ public:
   virtual void Modify(DPState<T> *state) const = 0;
+  virtual ~ModifyStrategy() {}
 };
 
-} // namespace genericdptest
+}  // namespace genericdp
 
-#endif // _MODIFY_STRATEGY_H_
+#endif  // _GENERICDP_MODIFY_STRATEGY_H_

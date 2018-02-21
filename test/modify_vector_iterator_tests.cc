@@ -1,11 +1,12 @@
-#include "modify_strategy_set.h"
-#include "modify_vector_iterator.h"
-#include "simple_shock_modify_strategy.h"
-#include "simple_state.h"
+#include <cmath>
+#include <memory>
 
 #include <gtest/gtest.h>
-#include <memory>
-#include <cmath>
+
+#include "genericdp/modify_strategy_set.h"
+#include "genericdp/modify_vector_iterator.h"
+#include "simple_shock_modify_strategy.h"
+#include "simple_state.h"
 
 class ModifyVectorIteratorTest : public ::testing::Test {
  public:
@@ -13,8 +14,10 @@ class ModifyVectorIteratorTest : public ::testing::Test {
 
  protected:
   virtual void SetUp() {
-    auto mod_strat_1_ = std::make_shared<genericdptest::SimpleShockModifyStrategy>(0, 0.6);
-    auto mod_strat_2_ = std::make_shared<genericdptest::SimpleShockModifyStrategy>(-3, 0.4);
+    auto mod_strat_1_ =
+        std::make_shared<genericdptest::SimpleShockModifyStrategy>(0, 0.6);
+    auto mod_strat_2_ =
+        std::make_shared<genericdptest::SimpleShockModifyStrategy>(-3, 0.4);
     shocks_ = genericdp::ModifyStrategySet<genericdptest::SimpleState>();
     shocks_.AddStrategy(mod_strat_1_);
     shocks_.AddStrategy(mod_strat_2_);
@@ -23,10 +26,13 @@ class ModifyVectorIteratorTest : public ::testing::Test {
     state_->cash = 10;
     state_->period = 4;
 
-    it_ = std::make_unique<genericdp::ModifyVectorIterator<genericdptest::SimpleState>>(*state_, shocks_);
+    it_ = std::make_unique<
+        genericdp::ModifyVectorIterator<genericdptest::SimpleState>>(*state_,
+                                                                     shocks_);
   }
-  
-  std::unique_ptr<genericdp::ModifyVectorIterator<genericdptest::SimpleState>> it_;
+
+  std::unique_ptr<genericdp::ModifyVectorIterator<genericdptest::SimpleState>>
+      it_;
   genericdp::ModifyStrategySet<genericdptest::SimpleState> shocks_;
   std::unique_ptr<genericdptest::SimpleState> state_;
 };
