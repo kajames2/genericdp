@@ -3,7 +3,7 @@
 
 #include "genericdp/dp_state.h"
 #include "genericdp/modify_strategy.h"
-#include "simple_state.h"
+#include "test/simple_state.h"
 
 namespace genericdptest {
 
@@ -11,7 +11,7 @@ class SimpleShockModifyStrategy
     : public genericdp::ModifyStrategy<SimpleState> {
  public:
   SimpleShockModifyStrategy(int cash_shock, double prob);
-  virtual void Modify(genericdp::DPState<SimpleState>* state) const override;
+  void Modify(genericdp::DPState<SimpleState>* state) const override;
 
  private:
   int cash_shock_;

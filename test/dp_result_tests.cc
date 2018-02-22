@@ -1,9 +1,9 @@
-#include <memory>
-
 #include <gtest/gtest.h>
 
+#include <memory>
+
 #include "genericdp/dp_result.h"
-#include "simple_state.h"
+#include "test/simple_state.h"
 
 class DPResultTest : public ::testing::Test {
  public:

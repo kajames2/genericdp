@@ -1,4 +1,4 @@
-#include "simple_modify_strategy.h"
+#include "test/simple_modify_strategy.h"
 
 #include <cmath>
 

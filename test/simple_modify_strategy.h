@@ -3,13 +3,13 @@
 
 #include "genericdp/dp_state.h"
 #include "genericdp/modify_strategy.h"
-#include "simple_state.h"
+#include "test/simple_state.h"
 
 namespace genericdptest {
 
 class SimpleModifyStrategy : public genericdp::ModifyStrategy<SimpleState> {
  public:
-  virtual void Modify(genericdp::DPState<SimpleState>* state) const override;
+  void Modify(genericdp::DPState<SimpleState>* state) const override;
 };
 
 }  // namespace genericdptest

@@ -1,6 +1,6 @@
 -Iinclude
 -Iinclude/genericdp
--Itest/
+-Itest
 -lgtest
 -lgtest_main
 -lpthread

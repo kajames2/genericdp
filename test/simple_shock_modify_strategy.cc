@@ -1,4 +1,4 @@
-#include "simple_shock_modify_strategy.h"
+#include "test/simple_shock_modify_strategy.h"
 
 #include <algorithm>
 

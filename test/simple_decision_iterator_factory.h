@@ -5,14 +5,14 @@
 
 #include "genericdp/dp_state.h"
 #include "genericdp/dp_state_iterator_factory.h"
-#include "simple_decision_iterator.h"
+#include "test/simple_decision_iterator.h"
 
 namespace genericdptest {
 class SimpleDecisionIteratorFactory
     : public genericdp::DPStateIteratorFactory<SimpleState> {
  public:
   SimpleDecisionIteratorFactory() {}
-  virtual std::unique_ptr<genericdp::DPStateIterator<SimpleState>> GetIterator(
+  std::unique_ptr<genericdp::DPStateIterator<SimpleState>> GetIterator(
       const genericdp::DPState<SimpleState> &input) const override {
     return std::make_unique<SimpleDecisionIterator>(input);
   }

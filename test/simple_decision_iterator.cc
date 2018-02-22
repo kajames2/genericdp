@@ -1,4 +1,4 @@
-#include "simple_decision_iterator.h"
+#include "test/simple_decision_iterator.h"
 
 namespace genericdptest {
 

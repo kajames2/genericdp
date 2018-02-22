@@ -2,7 +2,7 @@
 #define _SIMPLE_STORAGE_H_
 
 #include "genericdp/dp_storage_single_vector.h"
-#include "simple_state.h"
+#include "test/simple_state.h"
 
 namespace genericdptest {
 class SimpleStorage : public genericdp::DPStorageSingleVector<SimpleState> {
@@ -12,16 +12,16 @@ class SimpleStorage : public genericdp::DPStorageSingleVector<SimpleState> {
                                                       (max_cash + 1)),
         max_periods_(max_periods),
         max_cash_(max_cash) {}
-  virtual bool IsTerminalState(const SimpleState &state) const override {
+  bool IsTerminalState(const SimpleState &state) const override {
     return state.period == max_periods_ + 1;
   }
 
  protected:
-  virtual bool IsValidState(const SimpleState &state) const override {
+  bool IsValidState(const SimpleState &state) const override {
     return state.period >= 0 && state.period <= max_periods_ &&
            state.cash >= 0 && state.cash <= max_cash_;
   }
-  virtual int GetIndex(const SimpleState &state) const override {
+  int GetIndex(const SimpleState &state) const override {
     return (state.period - 1) * (max_cash_ + 1) + state.cash;
   }
 

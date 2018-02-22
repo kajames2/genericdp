@@ -1,11 +1,11 @@
+#include <gtest/gtest.h>
+
 #include <cmath>
 #include <memory>
 
-#include <gtest/gtest.h>
-
 #include "genericdp/stage_decision.h"
-#include "simple_decision_iterator_factory.h"
-#include "simple_state.h"
+#include "test/simple_decision_iterator_factory.h"
+#include "test/simple_state.h"
 
 class StageDecisionTest : public ::testing::Test {
  public:

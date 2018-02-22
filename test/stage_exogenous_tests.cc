@@ -1,11 +1,11 @@
+#include <gtest/gtest.h>
+
 #include <cmath>
 #include <memory>
 
-#include <gtest/gtest.h>
-
 #include "genericdp/stage_exogenous.h"
-#include "simple_modify_strategy.h"
-#include "simple_state.h"
+#include "test/simple_modify_strategy.h"
+#include "test/simple_state.h"
 
 class StageExogenousTest : public ::testing::Test {
  public:

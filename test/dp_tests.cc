@@ -1,16 +1,16 @@
+#include <gtest/gtest.h>
+
 #include <cmath>
 #include <memory>
-
-#include <gtest/gtest.h>
 
 #include "genericdp/dp.h"
 #include "genericdp/stage_decision.h"
 #include "genericdp/stage_exogenous.h"
 #include "genericdp/value_strategy.h"
-#include "simple_decision_iterator_factory.h"
-#include "simple_modify_strategy.h"
-#include "simple_state.h"
-#include "simple_storage.h"
+#include "test/simple_decision_iterator_factory.h"
+#include "test/simple_modify_strategy.h"
+#include "test/simple_state.h"
+#include "test/simple_storage.h"
 
 class DPTest : public ::testing::Test {
  public:

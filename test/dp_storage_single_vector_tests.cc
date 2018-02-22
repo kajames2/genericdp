@@ -1,11 +1,11 @@
+#include <gtest/gtest.h>
+
 #include <iostream>
 #include <memory>
 
-#include <gtest/gtest.h>
-
 #include "genericdp/dp_result.h"
-#include "simple_state.h"
-#include "simple_storage.h"
+#include "test/simple_state.h"
+#include "test/simple_storage.h"
 
 class DPStorageSingleVectorTest : public ::testing::Test {
  public:

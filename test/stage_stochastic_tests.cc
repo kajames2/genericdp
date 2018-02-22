@@ -1,13 +1,13 @@
+#include <gtest/gtest.h>
+
 #include <cmath>
 #include <memory>
-
-#include <gtest/gtest.h>
 
 #include "genericdp/modify_strategy_set.h"
 #include "genericdp/modify_vector_iterator_factory.h"
 #include "genericdp/stage_stochastic.h"
-#include "simple_shock_modify_strategy.h"
-#include "simple_state.h"
+#include "test/simple_shock_modify_strategy.h"
+#include "test/simple_state.h"
 
 class StageStochasticTest : public ::testing::Test {
  public:
