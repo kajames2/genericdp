@@ -1,8 +1,6 @@
 #ifndef _SIMPLE_STATE_H_
 #define _SIMPLE_STATE_H_
 
-#include "genericdp/dp_state.h"
-
 namespace genericdptest {
 
 class SimpleState {

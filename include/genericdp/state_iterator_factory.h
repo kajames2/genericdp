@@ -1,17 +1,17 @@
-#ifndef _GENERICDP_DP_STATE_ITERATOR_FACTORY_H_
-#define _GENERICDP_DP_STATE_ITERATOR_FACTORY_H_
+#ifndef _GENERICDP_STATE_ITERATOR_FACTORY_H_
+#define _GENERICDP_STATE_ITERATOR_FACTORY_H_
 
 #include <memory>
 
-#include "genericdp/dp_state.h"
-#include "genericdp/dp_state_iterator.h"
+#include "genericdp/state.h"
+#include "genericdp/state_iterator.h"
 
 namespace genericdp {
-template <class T>
+template <typename InState, typename OutDec>
 class DPStateIteratorFactory {
  public:
-  virtual std::unique_ptr<DPStateIterator<T>> GetIterator(
-      const DPState<T>& input) const = 0;
+  virtual std::unique_ptr<StateIterator<InState, OutDec>> GetIterator(
+      const State<InState, OutDec>& input) const = 0;
   DPStateIteratorFactory() = default;
   DPStateIteratorFactory(const DPStateIteratorFactory&) = delete;
   DPStateIteratorFactory& operator=(const DPStateIteratorFactory&) = delete;

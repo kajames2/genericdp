@@ -4,35 +4,37 @@
 #include <memory>
 #include <utility>
 
-#include "genericdp/dp_result.h"
+#include "genericdp/result_set.h"
+#include "genericdp/state.h"
 
 namespace genericdp {
 
-template <typename T>
+template <typename InState, typename OutDec>
 class Stage {
  public:
   explicit Stage(std::unique_ptr<Stage> next_stage);
   void SetNextStage(std::unique_ptr<Stage> next_stage) {
     next_stage_ = std::move(next_stage);
   }
-  virtual DPResult<T> Evaluate(DPState<T> *state) = 0;
+  virtual ResultSet<OutDec> Evaluate(State<InState, OutDec>& state) = 0;
   virtual ~Stage() {}
 
  protected:
-  DPResult<T> ProcessNext(DPState<T> *state);
+  ResultSet<OutDec> ProcessNext(State<InState, OutDec>& state);
 
  private:
   std::unique_ptr<Stage> next_stage_;
 };
 
-template <typename T>
-Stage<T>::Stage(std::unique_ptr<Stage> next_stage)
+template <typename InState, typename OutDec>
+Stage<InState, OutDec>::Stage(std::unique_ptr<Stage> next_stage)
     : next_stage_(std::move(next_stage)) {}
 
-template <typename T>
-DPResult<T> Stage<T>::ProcessNext(DPState<T> *state) {
+template <typename InState, typename OutDec>
+ResultSet<OutDec> Stage<InState, OutDec>::ProcessNext(
+    State<InState, OutDec>& state) {
   if (!next_stage_) {
-    return DPResult<T>(state);
+    return ResultSet<OutDec>();
   }
   return next_stage_->Evaluate(state);
 }

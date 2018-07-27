@@ -1,4 +1,4 @@
-CC := clang++-4.0
+CC := clang++-6.0
 SRCDIR := src
 BUILDDIR := build
 TESTDIR := test

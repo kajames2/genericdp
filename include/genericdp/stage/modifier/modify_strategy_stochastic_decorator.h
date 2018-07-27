@@ -3,27 +3,28 @@
 
 #include <memory>
 
-#include "genericdp/dp_state.h"
 #include "genericdp/modify_strategy.h"
 #include "genericdp/probability_strategy.h"
+#include "genericdp/state.h"
 
 namespace genericdp {
 
-template <typename T>
-class ModifyStrategyStochasticDecorator : public ModifyStrategy<T> {
+template <typename InState, typename OutDec>
+class ModifyStrategyStochasticDecorator
+    : public ModifyStrategy<InState, OutDec> {
  public:
   ModifyStrategyStochasticDecorator(
-      std::shared_ptr<const ModifyStrategy<T>> strat,
-      std::shared_ptr<const ProbabilityStrategy<T>> prob)
+      std::unique_ptr<const ModifyStrategy<InState, OutDec>> strat,
+      std::shared_ptr<const ProbabilityStrategy<InState>> prob)
       : strat_(strat), prob_(prob) {}
-  virtual void Modify(DPState<T> *state) const {
+  virtual void Modify(State<InState, OutDec> *state) const {
     strat_->Modify(state);
     state->probability *= prob_->GetProbability(*state);
   }
 
  private:
-  std::shared_ptr<const ModifyStrategy<T>> strat_;
-  std::shared_ptr<const ProbabilityStrategy<T>> prob_;
+  std::unique_ptr<const ModifyStrategy<InState, OutDec>> strat_;
+  std::shared_ptr<const ProbabilityStrategy<InState>> prob_;
 };
 
 }  // namespace genericdp

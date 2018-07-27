@@ -1,11 +1,12 @@
 #ifndef _SIMPLE_STORAGE_H_
 #define _SIMPLE_STORAGE_H_
 
-#include "genericdp/dp_storage_single_vector.h"
+#include "genericdp/storage/single_vector.h"
 #include "test/simple_state.h"
 
 namespace genericdptest {
-class SimpleStorage : public genericdp::DPStorageSingleVector<SimpleState> {
+template <typename T>
+class SimpleStorage : public genericdp::storage::SingleVector<SimpleState, T> {
  public:
   SimpleStorage(int max_periods, int max_cash)
       : genericdp::DPStorageSingleVector<SimpleState>(max_periods *
